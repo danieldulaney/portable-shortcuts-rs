@@ -20,7 +20,7 @@ struct Config {
 
 #[derive(Debug, Deserialize)]
 struct Shortcut {
-    location: String,
+    target: String,
     cli: bool,
 }
 
@@ -33,6 +33,9 @@ fn main() {
     eprintln!("Loading template file {:?}", config.template);
     let template = read_file(&config.template).unwrap();
     eprintln!("Loaded template");
+
+    println!("cargo:rerun-if-changed={}", CONFIG_FILENAME);
+    println!("cargo:rerun-if-changed={}", config.template.to_str().unwrap());
 
 
     for (name, data) in &config.shortcuts {
@@ -57,7 +60,8 @@ fn main() {
             .collect::<Vec<String>>()
             .join(", ");
 
-        let source = replace(&template, "%PATHS%", &path_replacement);
+        let source = replace(&template, "%TARGET%", &format!("{:?}", data.target));
+        let source = replace(&source, "%PATHS%", &path_replacement);
         let source = replace(&source, "%ENV_VARS%", &env_vars_replacement);
         let source = replace(&source, "%ENV_VALS%", &env_vals_replacement);
 

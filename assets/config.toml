@@ -1,13 +1,13 @@
 template = "assets/template.rs"
 src_dir = "src/bin"
-paths = ["X:\\path1", "X:\\path2"]
+paths = ["a:\\path1", "a:\\path2"]
 
 [envs]
 MY_ENV = "my env value"
 ANOTHER_ENV = "another env value"
-ABS_PATH_ENV = "X:\\abs path"
+ABS_PATH_ENV = "a:\\abs path"
 
 [shortcuts.foo]
-location = "X:\\foo"
+target = "a:\\tools\\foo\\bin\\foo.exe"
 cli = false
 
