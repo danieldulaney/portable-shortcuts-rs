@@ -1,0 +1,13 @@
+template = "assets/template.rs"
+src_dir = "src/bin"
+paths = ["X:\\path1", "X:\\path2"]
+
+[envs]
+MY_ENV = "my env value"
+ANOTHER_ENV = "another env value"
+ABS_PATH_ENV = "X:\\abs path"
+
+[shortcuts.foo]
+location = "X:\\foo"
+cli = false
+
