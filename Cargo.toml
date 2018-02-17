@@ -1,0 +1,6 @@
+[package]
+name = "hardcore-shortcuts"
+version = "0.1.0"
+authors = ["daniel"]
+
+[dependencies]
