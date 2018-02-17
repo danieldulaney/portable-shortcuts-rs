@@ -11,17 +11,20 @@ const CONFIG_FILENAME: &str = "assets/config.toml";
 
 #[derive(Debug, Deserialize)]
 struct Config {
-    template: PathBuf,
-    src_dir: PathBuf,
+    template: String,
+    src_dir: String,
     paths: Vec<String>,
     envs: HashMap<String, String>,
     shortcuts: HashMap<String, Shortcut>,
+    terminal: String,
+    terminal_flags: Vec<String>,
 }
 
 #[derive(Debug, Deserialize)]
 struct Shortcut {
     target: String,
     cli: bool,
+    args: Vec<String>,
 }
 
 fn main() {
@@ -35,15 +38,20 @@ fn main() {
     eprintln!("Loaded template");
 
     println!("cargo:rerun-if-changed={}", CONFIG_FILENAME);
-    println!("cargo:rerun-if-changed={}", config.template.to_str().unwrap());
+    println!("cargo:rerun-if-changed={}", config.template);
 
 
     for (name, data) in &config.shortcuts {
         eprintln!("Handling shortcut {}: {:?}", name, data);
 
-        let mut src_path = config.src_dir.clone();
+        let mut src_path = PathBuf::from(config.src_dir.clone());
         src_path.push(name);
         src_path.set_extension("rs");
+
+        let target = match data.cli {
+            false => &data.target,
+            true => &config.terminal,
+        };
 
         let path_replacement = config.paths.iter()
             .map(|s| format!("{:?}", s))
@@ -60,17 +68,41 @@ fn main() {
             .collect::<Vec<String>>()
             .join(", ");
 
-        let source = replace(&template, "%TARGET%", &format!("{:?}", data.target));
+        let args_replacement = match data.cli {
+            false => (&data.args).into_iter()
+                .map(|s| format!("{:?}", s))
+                .collect::<Vec<String>>()
+                .join(", "),
+            true => {
+                let mut args = (&config.terminal_flags).into_iter()
+                    .map(|s| format!("{:?}", s))
+                    .collect::<Vec<String>>()
+                    .join(", ");
+
+                args.push_str(", ");
+                args.push_str(&format!("{:?}", &data.target));
+                args.push_str(", ");
+
+                args.push_str(&(&data.args).into_iter()
+                                    .map(|s| format!("{:?}", s))
+                                    .collect::<Vec<String>>()
+                                    .join(", "));
+
+                args
+            }
+        };
+
+        let source = replace(&template, "%TARGET%", &format!("{:?}", target));
         let source = replace(&source, "%PATHS%", &path_replacement);
         let source = replace(&source, "%ENV_VARS%", &env_vars_replacement);
         let source = replace(&source, "%ENV_VALS%", &env_vals_replacement);
+        let source = replace(&source, "%ARGS%", &args_replacement);
 
         eprintln!("Writing to source file {:?}", src_path);
         let mut src_file = File::create(src_path).unwrap();
         src_file.write(source.as_bytes()).unwrap();
         eprintln!("Successfully wrote source");
     }
-
 
     //panic!("Done with build.rs");
 }

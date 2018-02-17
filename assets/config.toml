@@ -1,13 +1,48 @@
 template = "assets/template.rs"
 src_dir = "src/bin"
-paths = ["a:\\path1", "a:\\path2"]
+terminal = "a:/tools/conemu/ConEmu64.exe"
+terminal_flags = ["-run"]
+
+paths = [
+	"a:/tools/git/bin",
+	"a:/tools/anaconda",
+	"a:/tools/anaconda/scripts",
+	"a:/tools/anaconda/Library/bin",
+	"a:/tools/anaconda/Library/plugins/platforms",
+	"a:/tools/jdk/bin",
+	"a:/tools/perl/perl/bin",
+	"a:/tools/neovim/bin",
+	"a:/tools/shortcut_tools",
+	"a:/tools/7-zip",
+	"a:/tools/putty",
+	"a:/tools/node",
+	"a:/tools/mingw64/bin",
+	"a:/config/cargo/bin",
+]
 
 [envs]
-MY_ENV = "my env value"
-ANOTHER_ENV = "another env value"
-ABS_PATH_ENV = "a:\\abs path"
+HOME = "a:/config"
+RUSTUP_HOME = "a:/tools/rust"
+CARGO_HOME = "a:/config/cargo"
+JAVA_HOME = "a:/tools/jdk"
+XDG_CONFIG_HOME = "a:/config"
+GIT_SSH = "a:/tools/putty/plink.exe"
 
-[shortcuts.foo]
-target = "a:\\tools\\foo\\bin\\foo.exe"
+[shortcuts.7-zip]
+target = "a:/tools/7-zip/7zFM.exe"
+location = "a:/"
 cli = false
+args = []
+
+[shortcuts.console]
+target = "cmd"
+location = "a:/"
+cli = true
+args = []
+
+[shortcuts.emacs]
+target = "a:/tools/emacs/bin/emacs.exe"
+location = "a:/"
+cli = true
+args = ["-nw"]
 
