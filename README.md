@@ -4,7 +4,7 @@ Create portable shortcuts on a USB drive.
 
 ## Why does this exist?
 
-Sometimes, you have to do development work on a managed enterprise environment.
+Sometimes, you have to do development work on multiple machines without admin access.
 One method is to install your environment onto a USB drive, then run the programs
 off of it. However, on different computers, Windows can assign different drive
 letters to a USB drive based on how many drive letters the system already has
@@ -14,7 +14,8 @@ which usually rely on the fact that a path like `\foo\bar` will be assigned the
 drive letter of the current working directory.
 
 However, there are two shortcomings with the standard workarounds:
-1. [Some programs](https://www.gnu.org/software/emacs/manual/html_node/emacs/Windows-HOME.html) don't handle missing drive letters well
+1. [Some programs](https://www.gnu.org/software/emacs/manual/html_node/emacs/Windows-HOME.html)
+   don't handle missing drive letters well
 2. This method makes it hard to manage envrionment variables (particularly `PATH`)
 
 This program uses Rust to generate and build executables that can intelligently
