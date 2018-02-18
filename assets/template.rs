@@ -10,7 +10,6 @@ static PATH_ENTRY_SEP: &'static str = ";";
 
 use std::env;
 use std::ffi::OsString;
-use std::path::{Path, PathBuf};
 use std::process::Command;
 
 fn main() {

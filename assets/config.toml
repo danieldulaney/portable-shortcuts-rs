@@ -30,19 +30,19 @@ GIT_SSH = "a:/tools/putty/plink.exe"
 
 [shortcuts.7-zip]
 target = "a:/tools/7-zip/7zFM.exe"
-location = "a:/"
+location = "/7-zip.exe"
 cli = false
 args = []
 
 [shortcuts.console]
 target = "cmd"
-location = "a:/"
+location = "/console.exe"
 cli = true
 args = []
 
 [shortcuts.emacs]
 target = "a:/tools/emacs/bin/emacs.exe"
-location = "a:/"
+location = "/emacs.exe"
 cli = true
 args = ["-nw"]
 
