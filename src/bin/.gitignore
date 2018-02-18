@@ -1,0 +1,4 @@
+# Don't commit any generated source files in this directory
+*
+# But do commit this file
+!.gitignore
